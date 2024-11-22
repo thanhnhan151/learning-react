@@ -1,8 +1,11 @@
+import React from "react"
+import styles from "./styles.module.css"
+
 export function UserUsername(props) {
   return (
-    <div>
-      <b>Username: </b>
+    <React.Fragment>
+      <b className={styles.username}>Username: </b>
       <span>{props.username}</span>
-    </div>
+    </React.Fragment>
   )
 }
