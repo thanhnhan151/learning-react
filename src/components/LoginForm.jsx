@@ -1,4 +1,25 @@
+import { useEffect } from "react"
+import { useDocumentClick } from "../utils/hooks/useDocumentClick"
+
+useEffect
+
 export function LoginForm() {
+
+  useEffect(() => {
+    const resizeEventHandler = (e) => {
+      console.log("Window/ViewPost Resized!")
+    }
+    window.addEventListener("resize", resizeEventHandler)
+
+    return () => {
+      console.log("Unmounting LoginForm")
+      console.log("Remove Resize Event Listener")
+      window.removeEventListener("resize", resizeEventHandler)
+    }
+  }, [])
+
+  useDocumentClick()
+
   return (
     <form onSubmit={(e) => {
       e.preventDefault()
