@@ -6,10 +6,31 @@ export default function App() {
   // const [email, setEmail] = useState("")
   const [counter, setCounter] = useState(0)
   const [sync, setSync] = useState(false)
+
   useEffect(() => {
     console.log("Rendering...")
     document.title = "React Tutorial " + counter
   }, [sync])
+
+  useEffect(() => {
+
+    const controller = new AbortController()
+    
+    async function fetchUsers() {
+      try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/users", { signal: controller.signal })
+        const json = await response.json()
+        console.log(json)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchUsers()
+
+    return () => {
+      controller.abort()
+    }
+  })
   // const [users, setUsers] = useState([
   //   {
   //     id: 1,
@@ -29,7 +50,7 @@ export default function App() {
       <button onClick={() => {
         setCounter((count) => count + 1)
       }} >CLick Me</button>
-      <button onClick={() => setSync((current) => !current)}></button>
+      <button onClick={() => setSync((current) => !current)}>Sync</button>
       {/* <form onSubmit={e => {
         e.preventDefault()
         const newUser = {
