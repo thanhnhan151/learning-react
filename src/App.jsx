@@ -1,20 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PostContainer } from "./components/PostContainer";
 import { UserContext } from "./utils/contexts/UserContext";
+import { useFetchUser } from "./utils/hooks/useFetchUser";
 
 export default function App() {
-  const [userData, setUserData] = useState({
-    id: 1,
-    username: "kevin",
-    email: "kevin@gmail.com",
-    displayName: "kevinGG"
-  })
+  const { user, loading, error } = useFetchUser(1)
+
+  const [userData, setUserData] = useState({})
+
+  useEffect(() => {
+    if (!loading && !error && user) setUserData(user)
+  }, [loading, error, user])
   
   return (
     <>
       <UserContext.Provider value={{ ...userData, setUserData }}>
         <div>
-          <PostContainer />
+          {loading ? "Loading..." : <PostContainer />}
         </div>
       </UserContext.Provider>
     </>
